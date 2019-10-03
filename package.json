@@ -1,0 +1,26 @@
+{
+  "name": "host-explorer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js C:/Users/Weuller%20Jr/github/host-explorer/testFolder"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WLLR9505/host-explorer.git"
+  },
+  "keywords": [
+    "localhost"
+  ],
+  "author": "Weuller Jr. Souza",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WLLR9505/host-explorer/issues"
+  },
+  "homepage": "https://github.com/WLLR9505/host-explorer#readme",
+  "devDependencies": {
+    "nodemon": "^1.19.2"
+  }
+}

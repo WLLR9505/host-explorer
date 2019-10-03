@@ -1,0 +1,14 @@
+{
+    "defaultIndex": "/index.html",
+    "types": {
+        "htm": "text/html",
+        "html": "text/html",
+        "jpg": "image/jpeg",
+        "jpeg": "image/jpeg",
+        "png": "image/png",
+        "css": "text/css",
+        "js": "text/javascript",
+        "mp4": "application/mp4",
+        "json": "application/json"
+    }
+}
