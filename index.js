@@ -7,7 +7,7 @@ var path = require('path'),
     config = require('./config'),
     fileHandler = require('./filehandler');
 
-process.title = 'hostExporer';
+process.title = 'hostExplorer';
 var args = process.argv,
     port = args[3] || 8000,
     rootFolder = args[2] || path.resolve(process.cwd()),
