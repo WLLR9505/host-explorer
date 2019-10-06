@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 var path = require('path'),
     http = require('http'),
+    parse = require('url').parse,
+    videoStream = require('./videoType'),
     htmlBuilder = require('./front/hostExplorer'),
-    Navigator = require('./navigator'),
     config = require('./config'),
-    fileHandler = require('./filehandler'),
-    parse = require('url').parse;
+    fileHandler = require('./filehandler');
 
 process.title = 'hostExporer';
 var args = process.argv,
@@ -17,7 +17,8 @@ var args = process.argv,
 
 rootFolder = rootFolder.replace(/%20/g, ' ');
 rootFolder = rootFolder.replace(/\\/g, '/');
-var nav = new Navigator(rootFolder);
+
+var FULLPATH = rootFolder;
     
 function main () {
     if (args[2] == '-h') {
@@ -33,44 +34,54 @@ function main () {
             process.stdout.write('\x1b[01;31mOcorreu um erro!\x1b[0m\n');
             process.stdout.write(e);
         }
-        html = htmlBuilder(nav.fullPath);
+        html = htmlBuilder(FULLPATH, FULLPATH.replace(rootFolder, ''));
         webServer.on('request', onRequest);
     }
 }
 
+function goTo (target) {
+    if (target.includes('_BACK_')) { //ignore '_BACK_'
+        target = target.split('/');
+        target = target.filter((i) => {
+            return !i.includes('_BACK_');
+        });
+        target = target.join('/');
+    }
+    return rootFolder + target;
+}
+
 function onRequest (req, res) {
     var filename = parse(req.url).pathname;
+    console.log('REQUEST:   ' + rootFolder + filename);
 
     var extension = filename.substr(filename.lastIndexOf('.') + 1).toLowerCase();
-    
-    if (filename == '/')
-        filename = rootFolder;
-    
-    if (filename == '/_BACK_') {
-        nav.goBack();
-    } else if (!nav.fullPath.includes(filename)) {
-        nav.goTo(filename);
-    }
+
+    if (!FULLPATH.includes(filename))
+        FULLPATH = goTo(filename);
 
     if (!filename.includes('.')) { //if Folder
-        html = htmlBuilder(nav.fullPath);
+        html = htmlBuilder(FULLPATH, FULLPATH.replace(rootFolder, ''));
         res.writeHead(200, {
             'Content-Type': 'html',
             'Content-Lenght': html.length
         });
         res.end(html);
     } else { // if File
-        fileHandler(nav.fullPath, (data) => {
-            res.writeHead(200, {
-                'Content-Type': types[extension] || 'text/plain',
-                'Content-Lenght': data.length
+        if (filename.includes('.mp4')) {
+            videoStream(res, req, FULLPATH);
+        } else {
+            fileHandler(FULLPATH, (data) => {
+                res.writeHead(200, {
+                    'Content-Type': types[extension] || 'text/plain',
+                    'Content-Lenght': data.length
+                });
+                res.end(data);
+            }, (err) => {
+                console.log(err);
+                res.writeHead(404);
+                res.end();
             });
-            res.end(data);
-        }, (err) => {
-            console.log(err);
-            res.writeHead(404);
-            res.end();
-        });
+        }
     }
 }
 //-----------------------------

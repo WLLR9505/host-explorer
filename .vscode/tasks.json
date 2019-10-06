@@ -13,6 +13,16 @@
                 "--oneline"
             ],
             "problemMatcher": []
+        },
+        {
+            "label": "run dev",
+            "type": "npm",
+            "script": "dev",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }

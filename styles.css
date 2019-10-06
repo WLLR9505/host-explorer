@@ -102,7 +102,6 @@ a {
                          "statusbar";
     grid-template-rows: 3% 20% 74% 3%;
     z-index: 1;
-    position: fixed;
 }
 
 #pathBar, #statusBar {

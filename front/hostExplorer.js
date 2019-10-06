@@ -18,40 +18,47 @@ function listItems (dir) { //usado para listar os itens
         var spanInfo = `<span style="display: none;" id="file=info"><span id="focus-info-file">${i}</span><span id="focus-info-size">${size}</span></span>`;
 
         if (i.toLowerCase().includes('.jpg')) {
-            fileItems.push(`<a href="./${i}" onmouseover="showInfo(this)"><span id="file-name">${i}${spanInfo}</span><i class="zmdi zmdi-image-o"></i></a>`);
+            fileItems.push(`<a onclick="nav(this)" onmouseover="showInfo(this)"><span id="file-name">${i}${spanInfo}</span><i class="zmdi zmdi-image-o"></i></a>`);
         } else if (i.toLowerCase().includes('.mp4')) {
-            fileItems.push(`<a href="./${i}" onmouseover="showInfo(this)"><span id="file-name">${i}${spanInfo}</span><i class="zmdi zmdi-videocam"></i></a>`);
+            fileItems.push(`<a onclick="nav(this)" onmouseover="showInfo(this)"><span id="file-name">${i}${spanInfo}</span><i class="zmdi zmdi-videocam"></i></a>`);
+        } else if (i.toLowerCase().includes('.mp3')) {
+            fileItems.push(`<a onclick="nav(this)" onmouseover="showInfo(this)"><span id="file-name">${i}${spanInfo}</span><i class="zmdi zmdi-speaker"></i></a>`);
         } else if (i.toLowerCase().includes('.')) {
-            fileItems.push(`<a href="./${i}" onmouseover="showInfo(this)"><span id="file-name">${i}${spanInfo}</span><i class="zmdi zmdi-file"></i></a>`);
+            fileItems.push(`<a onclick="nav(this)" onmouseover="showInfo(this)"><span id="file-name">${i}${spanInfo}</span><i class="zmdi zmdi-file"></i></a>`);
         } else if (!i.toLowerCase().includes('.')) {
-            folderItems.push(`<a href="./${i}" onmouseover="showInfo(this)"><span id="file-name">${i}${spanInfo}</span><i class="zmdi zmdi-folder"></i></a>`);
+            folderItems.push(`<a onclick="nav(this)" onmouseover="showInfo(this)"><span id="file-name">${i}${spanInfo}</span><i class="zmdi zmdi-folder"></i></a>`);
         }
     });
     files = fileItems;
     folders = folderItems;
 }
 
-module.exports = function htmlBuilder (path) {
+module.exports = function htmlBuilder (path, shortPath) {
     listItems(path);
 
     return `<!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Document</title>
+        <title>${path}</title>
         </head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
         <style>${styles}</style>
         <script>
+        function nav(d) {
+            var p = document.getElementById('currentPath');
+            location.href = location.protocol + "//" + location.host + p.innerText + '/' + d.innerText;
+            console.log('./' + p.innerText + '/' + d.innerText);
+        }
+
     function showInfo(el) {
         var statusBar = document.getElementById('statusBar');
         statusBar.innerHTML = el.childNodes[0].childNodes[1].innerHTML;
         
         var bgImg = statusBar.childNodes[0].innerText;
-        console.log(bgImg);
         
         if (bgImg.toLowerCase().includes('.jpg')) {
             var background = document.getElementById('bg');
-            background.style.backgroundImage = 'url(http://192.168.1.102:8000/' + bgImg + ')';
+            background.style.backgroundImage = 'url(' + location.protocol + '//' + location.host + location.pathname + '/' + bgImg + ')';
         }
     }
     </script>
@@ -60,8 +67,8 @@ module.exports = function htmlBuilder (path) {
     </span>
     <span id="black-prompt">
     <span id="pathBar">
-        <a id="BACK" href="_BACK_" ><i class="zmdi zmdi zmdi-arrow-left"></i></a>
-        <span id="currentPath">${path}</span>
+            <a id="BACK" href="${shortPath}_BACK_" ><i class="zmdi zmdi zmdi-arrow-left"></i></a>
+        <span id="currentPath">${shortPath}</span>
         </span>
         <span id="folders-area">
             ${folders.join('\n')}
