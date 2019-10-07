@@ -1,5 +1,6 @@
 const fs = require('fs');
-module.exports = (res, req, fullpath) => {
+const config = require('./config');
+module.exports = (res, req, fullpath, extension) => {
     let stat = fs.statSync(fullpath);
     let fileSize = stat.size;
     let range = req.headers.range;
@@ -9,18 +10,18 @@ module.exports = (res, req, fullpath) => {
         let end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
         let chunksize = (end - start) + 1;
         let file = fs.createReadStream(fullpath, { start, end });
-                
+
         res.writeHead(206, {
             'Content-Range': `bytes ${start}-${end}/${fileSize}`,
             'Accept-Ranges': 'bytes',
             'Content-Length': chunksize,
-            'Content-Type': 'video/mp4'
+            'Content-Type': config.types[extension]
         });
         file.pipe(res);
     } else {
         res.writeHead(200, {
             'Content-Length': fileSize,
-            'Content-Type': 'video/mp4'
+            'Content-Type': config.types[extension]
         });
         fs.createReadStream(fullpath).pipe(res);
     }
