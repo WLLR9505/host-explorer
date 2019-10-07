@@ -1,3 +1,4 @@
+module.exports = `
 html, body {
     width: 100%;
     height: 100%;
@@ -168,3 +169,4 @@ a {
     width: 0;
     height: 0;
 }
+`;

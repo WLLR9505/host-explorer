@@ -1,5 +1,6 @@
 var fs = require('fs');
-var styles = fs.readFileSync('./styles.css', 'utf8');
+// var styles = fs.readFileSync('./front/style.css', 'utf8'); //used to easy edit pure css
+var styles = require('./styles');
 
 var files = [];
 var folders = [];

@@ -12,12 +12,17 @@
     "url": "git+https://github.com/WLLR9505/host-explorer.git"
   },
   "keywords": [
-    "localhost"
+    "localhost",
+    "explorer",
+    "file"
   ],
   "author": "Weuller Jr. Souza",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/WLLR9505/host-explorer/issues"
+  },
+  "bin": {
+    "hostexplorer": "index.js"
   },
   "homepage": "https://github.com/WLLR9505/host-explorer#readme",
   "devDependencies": {
