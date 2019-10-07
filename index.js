@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 var path = require('path'),
     http = require('http'),
+    fs = require('fs'),
     parse = require('url').parse,
     videoStream = require('./videoType'),
     htmlBuilder = require('./front/hostExplorer'),
@@ -60,7 +61,7 @@ function onRequest (req, res) {
         if (!FULLPATH.includes(filename))
             FULLPATH = goTo(filename);
 
-        if (!filename.includes('.')) { //if Folder
+        if (fs.statSync(FULLPATH).isDirectory()) { //if Folder
             html = htmlBuilder(FULLPATH, FULLPATH.replace(rootFolder, ''));
             res.writeHead(200, {
                 'Content-Type': 'html',

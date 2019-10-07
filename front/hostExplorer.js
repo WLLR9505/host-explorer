@@ -18,7 +18,9 @@ function listItems (dir) { //usado para listar os itens
 
         var spanInfo = `<span style="display: none;" id="file=info"><span id="focus-info-file">${i}</span><span id="focus-info-size">${size}</span></span>`;
 
-        if (i.toLowerCase().includes('.jpg')) {
+        if (fs.statSync(dir + '/' + i).isDirectory()) {
+            folderItems.push(`<a onclick="nav(this)" onmouseover="showInfo(this)"><span id="file-name">${i}${spanInfo}</span><i class="zmdi zmdi-folder"></i></a>`);
+        } else if (i.toLowerCase().includes('.jpg')) {
             fileItems.push(`<a onclick="nav(this)" onmouseover="showInfo(this)"><span id="file-name">${i}${spanInfo}</span><i class="zmdi zmdi-image-o"></i></a>`);
         } else if (i.toLowerCase().includes('.mp4')) {
             fileItems.push(`<a onclick="nav(this)" onmouseover="showInfo(this)"><span id="file-name">${i}${spanInfo}</span><i class="zmdi zmdi-videocam"></i></a>`);
@@ -26,8 +28,6 @@ function listItems (dir) { //usado para listar os itens
             fileItems.push(`<a onclick="nav(this)" onmouseover="showInfo(this)"><span id="file-name">${i}${spanInfo}</span><i class="zmdi zmdi-speaker"></i></a>`);
         } else if (i.toLowerCase().includes('.')) {
             fileItems.push(`<a onclick="nav(this)" onmouseover="showInfo(this)"><span id="file-name">${i}${spanInfo}</span><i class="zmdi zmdi-file"></i></a>`);
-        } else if (!i.toLowerCase().includes('.')) {
-            folderItems.push(`<a onclick="nav(this)" onmouseover="showInfo(this)"><span id="file-name">${i}${spanInfo}</span><i class="zmdi zmdi-folder"></i></a>`);
         }
     });
     files = fileItems;
