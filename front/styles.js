@@ -55,6 +55,7 @@ a {
 #folders-area a, #files-area a {
     height: 8vh;
     width: 8vh;
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 #folders-area {
@@ -169,4 +170,8 @@ a {
     width: 0;
     height: 0;
 }
-`;
+
+@-webkit-keyframes fadeIn {
+    0% { opacity: 0; } 
+    100% { opacity:1; }
+}`;
