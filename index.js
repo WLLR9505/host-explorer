@@ -60,10 +60,9 @@ function onRequest (req, res) {
 
         if (fs.statSync(FULLPATH).isDirectory()) { //if Folder
             html = htmlBuilder(FULLPATH, FULLPATH.replace(rootFolder, ''));
-            res.writeHead(200, {
-                'Content-Type': 'html',
-                'Content-Lenght': html.length
-            });
+
+            res.setHeader('Content-Type', 'html');
+            res.setHeader('Content-Lenght', html.length);
             res.end(html);
         } else { // if File
             if (extension.includes('mp')) { //mp4 / mp3
