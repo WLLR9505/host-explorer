@@ -4,6 +4,8 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    user-select: none;
+    -moz-user-select: none;
 }
 
 #bg {
@@ -181,4 +183,9 @@ a {
 @-webkit-keyframes fadeIn {
     0% { opacity: 0; } 
     100% { opacity:1; }
+}
+
+@-webkit-keyframes fadeOut {
+    0% { opacity: 1; } 
+    100% { opacity:0; }
 }`;
