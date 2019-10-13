@@ -87,6 +87,13 @@ a {
     text-overflow: ellipsis;
 }
 
+#bigImage {
+    display: none;
+    justify-self: center;
+    height: 100%;
+    z-index: 2;
+}
+
 #black-prompt {
     background-color: rgba(0, 0, 0, 0.945);
     width: 70vw;

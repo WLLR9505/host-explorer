@@ -21,7 +21,7 @@ function listItems (dir) { //usado para listar os itens
         if (fs.statSync(dir + '/' + i).isDirectory()) {
             folderItems.push(`<a onclick="nav(this)" onmouseover="showInfo(this)"><span id="file-name">${i}${spanInfo}</span><i class="zmdi zmdi-folder"></i></a>`);
         } else if (i.toLowerCase().includes('.jpg')) {
-            fileItems.push(`<a onclick="nav(this)" onmouseover="showInfo(this)"><span id="file-name">${i}${spanInfo}</span><i class="zmdi zmdi-image-o"></i></a>`);
+            fileItems.push(`<a onclick="openImage(this)" onmouseover="showInfo(this)"><span id="file-name">${i}${spanInfo}</span><i class="zmdi zmdi-image-o"></i></a>`);
         } else if (i.toLowerCase().includes('.mp4')) {
             fileItems.push(`<a onclick="nav(this)" onmouseover="showInfo(this)"><span id="file-name">${i}${spanInfo}</span><i class="zmdi zmdi-videocam"></i></a>`);
         } else if (i.toLowerCase().includes('.mp3')) {
@@ -51,17 +51,32 @@ module.exports = function htmlBuilder (path, shortPath) {
             console.log('./' + p.innerText + '/' + d.innerText);
         }
 
-    function showInfo(el) {
-        var statusBar = document.getElementById('statusBar');
-        statusBar.innerHTML = el.childNodes[0].childNodes[1].innerHTML;
-        
-        var bgImg = statusBar.childNodes[0].innerText;
-        
-        if (bgImg.toLowerCase().includes('.jpg')) {
+        function openImage(el) {
             var background = document.getElementById('bg');
-            background.style.backgroundImage = 'url(' + location.protocol + '//' + location.host + location.pathname + '/' + bgImg + ')';
+            var blackPrompt = document.getElementById('black-prompt');
+            var elImg = document.getElementById('bigImage');
+            let img = el.childNodes[0].childNodes[0].textContent;
+            elImg.src = location.protocol + '//' + location.host + location.pathname + '/' + img;
+            elImg.style.display = 'grid';
+            blackPrompt.style.display = background.style.display = 'none';
+            elImg.onclick = () => {
+                background.style.display = blackPrompt.style.display = 'grid';
+                elImg.style.display = 'none';
+                elImg.src = '';
+            }
         }
-    }
+
+        function showInfo(el) {
+            var statusBar = document.getElementById('statusBar');
+            statusBar.innerHTML = el.childNodes[0].childNodes[1].innerHTML;
+        
+            var bgImg = statusBar.childNodes[0].innerText;
+        
+            if (bgImg.toLowerCase().includes('.jpg')) {
+                var background = document.getElementById('bg');
+                background.style.backgroundImage = 'url(' + location.protocol + '//' + location.host + location.pathname + '/' + bgImg + ')';
+            }
+        }
     </script>
         <body>
     <span id="bg">
@@ -81,6 +96,7 @@ module.exports = function htmlBuilder (path, shortPath) {
             host explorer v1.0
         </span>
     </span>
+    <img id="bigImage" src = ""></img>
     </body>
 </html>`;
 }
