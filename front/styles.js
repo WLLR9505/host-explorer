@@ -91,6 +91,7 @@ a {
 
 #bigImage {
     display: none;
+    position: absolute;
     justify-self: center;
     height: 100%;
     z-index: 2;
